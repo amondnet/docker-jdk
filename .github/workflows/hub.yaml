@@ -33,8 +33,8 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          context: ./openjdk/11/jre/adopt
-          file: ./openjdk/11/jre/adopt/Dockerfile
+          context: ./openjdk/11/jre/adopt/ubuntu
+          file: ./openjdk/11/jre/adopt/ubuntu/Dockerfile
           push: true
           tags: amond/openjdk:11
           platforms: linux/arm64,linux/amd64
