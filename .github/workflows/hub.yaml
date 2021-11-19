@@ -4,15 +4,17 @@ on:
     branches:
       - master
   workflow_dispatch:
-    #inputs:
-    #  distribution:
-    #    default: 'firebase'
-    #    description: 'firebase, testflight'
-    #    required: true      
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - path: ibm-semeru/11-jre
+            tag: 11-jre-ibm-semeru
+          - path: eclipse-temurin/11-jre
+            tag: 11-jre-eclipse-temurin
     steps:
       - uses: actions/checkout@v2
       -
@@ -33,10 +35,10 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          context: ./openjdk/11/jre/adopt/ubuntu
-          file: ./openjdk/11/jre/adopt/ubuntu/Dockerfile
+          context: ./${{matrix.path}}
+          file: ./${{matrix.path}}/Dockerfile
           push: true
-          tags: amond/openjdk:11
+          tags: amond/openjdk:${{matrix.tag}}
           platforms: linux/arm64,linux/amd64
       -
         name: Image digest
